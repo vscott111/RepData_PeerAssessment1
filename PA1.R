@@ -1,12 +1,5 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
-
-
 ## Loading and preprocessing the data
+
 activity<-read.csv("./activity.csv",header = TRUE)
 activity[,2]<-as.Date(activity$date)
 str(activity)
@@ -40,19 +33,18 @@ l<-length(index)
 steps_avg<-with(activity,tapply(steps,date,mean,na.rm=TRUE))
 na<-mean(steps_avg,na.rm = TRUE)
 for (i in 1:l) {
-        activity[index[i],1]<-na
+  activity[index[i],1]<-na
 }
 
-###check if there are still NAs & review histogram
+###check if there are still NAs
 sum(is.na(activity$steps))
 str(activity)
+
 steps_2<-with(activity,tapply(steps,date,sum,na.rm=TRUE))
 hist(steps_2,col = "green",xlab = "Total Steps",ylab = "Frequency",main = "Total Number of Steps per Day")
 
-
 ## Are there differences in activity patterns between weekdays and weekends?
 library(dplyr)
-
 activity_mod<- mutate(activity, day = ifelse(weekdays(activity$date) == "Saturday" | weekdays(activity$date) == "Sunday", "weekend", "weekday"))
 activity_mod$day<-as.factor(activity_mod$day)
 str(activity_mod)
@@ -68,6 +60,6 @@ new_wkdy<-data.frame(cbind(steps_wkdy,int_wkdy))
 par(mfrow=c(2,1),mar=c(4,4,2,1))
 plot(new_wknd$int_wknd,new_wknd$steps_wknd,type = "l",xlab = "Intervals",
      ylab = "Average Steps",main = "Weekend")
-     
+
 plot(new_wkdy$int_wkdy,new_wkdy$steps_wkdy,type = "l",xlab = "Intervals",
      ylab = "Average Steps",main = "Weekday")

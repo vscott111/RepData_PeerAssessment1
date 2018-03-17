@@ -7,6 +7,7 @@ output:
 
 
 ## Loading and preprocessing the data
+
 activity<-read.csv("./activity.csv",header = TRUE)
 activity[,2]<-as.Date(activity$date)
 str(activity)
